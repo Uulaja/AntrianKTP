@@ -3,12 +3,12 @@ import java.util.Scanner;
 public class App {
     // atribut data
     private static int pilihan;
-    private static String no;
+    private static int no;
     private static String nama;
     private static String alamat;
     private static boolean kondisi;
     private static final Scanner read = new Scanner(System.in);
-    private static final Queue ktp = new Queue();
+    private static final Queue_copy ktp = new Queue_copy();
 
     // implementasi queue
     public static void main(String[] args) {
@@ -37,6 +37,7 @@ public class App {
                     keluarAntrian();
                     break;
                 default:
+                
                     invalidMenu();
             }
         } while (pilihan != 0);
@@ -47,32 +48,31 @@ public class App {
         System.out.println("Pendaftaran");
         System.out.println("--------------------------");
         System.out.print("Masukkan No Pendaftar : ");
-        no = read.next();
+        no = read.nextInt();
         System.out.print("Masukkan Nama Pendaftar : ");
         nama = read.next();
         System.out.print("Masukkan Alamat Pendaftar : ");
         alamat = read.next();
-        Pendaftar kartu = new Pendaftar(no, nama, alamat, kondisi);
-        // Pendaftar kartu = new Pendaftar(nama, kondisi);
-        ktp.enqueue(kartu, 0);
+       //Queue_copy antri = new Queue_copy();
+        ktp.enqueue(no, nama, alamat);
     }
 
     // procedure melihat isi data pada queue
     static void daftarAntrian() {
         System.out.println("Lihat Daftar Antrian");
         System.out.println("--------------------------");
-        ktp.cetak(no, nama, alamat, kondisi);
+        ktp.cetak();
     }
 
     // procedure mengambil/menghapus data pada queue
     static void keluarAntrian() {
         System.out.println("Panggil Pendaftar");
         System.out.println("--------------------------");
-        if (ktp.kosong() == true) {
+        if (ktp.isEmpty() == true) {
             System.out.println("Antrian telah kosong");
         } else {
-            Object dtHapus = ktp.dequeue();
-            System.out.printf("%s telah keluar dari antrian\n", dtHapus);
+           ktp.dequeue();
+            
         }
     }
 

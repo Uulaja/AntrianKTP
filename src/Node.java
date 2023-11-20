@@ -1,26 +1,23 @@
 public class Node {
     // atribut data
-    Object data;
-    Node next;
+    private int nomor;
+    private String nama;
+    private String Alamat;
+    public Node next;
+    // constructor
+    public Node(int nomor,String nama,String alamat){
+        this.nomor = nomor;
+        this.nama=nama;
+        this.Alamat=alamat;
 
-    // constructor node
-    Node(Object object) {
-        this(object, null);
+    
     }
-
-    // constructor node
-    Node(Object object, Node node) {
-        data = object;
-        next = node;
+    public void displaynode(){
+        System.out.println("Nomor : "+this.nomor);
+        System.out.println("Nama  : "+this.nama);
+        System.out.println("Alamat: "+this.Alamat);
     }
-
-    // function getter data
-    Object getObject() {
-        return data;
-    }
-
-    // function getter pointer next
-    Node getNext() {
-        return next;
+    public int getNomor(){
+        return nomor;
     }
 }
