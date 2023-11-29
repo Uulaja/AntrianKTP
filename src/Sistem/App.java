@@ -1,3 +1,7 @@
+package Sistem;
+
+import Koneksi.KoneksiDatabase;
+
 import java.util.Scanner;
 
 public class App {
@@ -45,6 +49,7 @@ public class App {
 
     // procedure memasukkan data pada queue / Pendaftaran
     static void pendaftaran() {
+        KoneksiDatabase data = new KoneksiDatabase();
         System.out.println("Pendaftaran");
         System.out.println("--------------------------");
         System.out.print("Masukkan No Pendaftar : ");
@@ -53,15 +58,17 @@ public class App {
         nama = read.next();
         System.out.print("Masukkan Alamat Pendaftar : ");
         alamat = read.next();
-       //Queue_copy antri = new Queue_copy();
-        ktp.enqueue(no, nama, alamat);
+        String[] namaKolom = {"Nama", "Alamat"};
+        String[] isiTabel = {nama, alamat};
+       data.queryInsert("antrian", namaKolom, isiTabel);
+        ktp.enqueue();
     }
 
     // procedure melihat isi data pada queue
     static void daftarAntrian() {
         System.out.println("Lihat Daftar Antrian");
         System.out.println("--------------------------");
-        ktp.cetak();
+        ktp.displayAllNumbers();
     }
 
     // procedure mengambil/menghapus data pada queue

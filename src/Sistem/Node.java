@@ -1,3 +1,4 @@
+package Sistem;
 public class Node {
     // atribut data
     private int nomor;
