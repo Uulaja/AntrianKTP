@@ -21,4 +21,7 @@ public class Node {
     public int getNomor(){
         return nomor;
     }
+    public String getNama(){
+        return nama;
+    }
 }

@@ -1,28 +1,31 @@
 package Sistem;
+
 import java.util.ArrayList;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import Koneksi.KoneksiDatabase;
 
-public class Queue_copy {
+public class Queue {
     private Node nodeAwal;
     private ArrayList<Node> queList;
     KoneksiDatabase data = new KoneksiDatabase();
-    public Queue_copy() {
+
+    public Queue() {
         queList = new ArrayList<>();
     }
 
     public void enqueue() {
         data.koneksiDatabase();
         try {
-            ResultSet resultSet = data.eksekusiQuery("SELECT * FROM antrian"); // Ganti "nama_tabel" dengan nama tabel yang sesuai
+            ResultSet resultSet = data.eksekusiQuery("SELECT * FROM antrian"); // Ganti "nama_tabel" dengan nama tabel
+                                                                               // yang sesuai
             while (resultSet.next()) {
                 int nomor = resultSet.getInt("nomor"); // Ganti "nomor" dengan nama kolom yang sesuai
                 String nama = resultSet.getNString("Nama");
                 String alamat = resultSet.getNString("Alamat");
                 // Buat objek Node baru dengan nomor dari database
-                Node newNode = new Node(nomor,nama,alamat); // Add the constructor argument with the nomor value
+                Node newNode = new Node(nomor, nama, alamat); // Add the constructor argument with the nomor value
                 // Tambahkan newNode ke dalam queList
                 queList.add(newNode);
                 // Jika nodeAwal masih kosong, set nodeAwal ke newNode
@@ -39,26 +42,18 @@ public class Queue_copy {
     }
 
     public Node dequeue() {
-
+        int lastindex = queList.size() - 1;
+        Node removedNode = queList.get(0);
         if (isEmpty()) {
             System.out.println("Queue is empty. Cannot remove.");
             return null;
+        } else {
+            // Remove the data from the database
+            data.eksekusiUpdate("DELETE FROM antrian WHERE nomor = " + removedNode.getNomor());
+            data.eksekusiUpdate("ALTER TABLE antrian AUTO_INCREMENT = " + lastindex);
+            return queList.remove(0);
+
         }
-
-        // Removing and returning the first node in the queue
-        Node removedNode = queList.get(0);
-        System.out.println("Nomor antrian : " + removedNode.getNomor() + " Telah dikeluarkan");
-
-        // Updating the nodeAwal variable correctly
-        if (removedNode == nodeAwal) {
-            nodeAwal = nodeAwal.next;
-        }
-
-        // Remove the data from the database
-        data.eksekusiUpdate("DELETE FROM antrian WHERE nomor = " + removedNode.getNomor());
-
-        return queList.remove(0);
-
     }
 
     public Node peekFront() {
@@ -101,21 +96,31 @@ public class Queue_copy {
         System.out.println();
     }
 
-public void displayAllNumbers() {
-    enqueue();
-    System.out.println("All numbers in the queue:");
-    for (Node node : queList) {
-        System.out.print(node.getNomor()+"<--------");
-    }
-}
-public int peekFrontNumber() {
-    if (isEmpty()) {
-        System.out.println("Queue is empty. Cannot peek.");
-        return -1;
+    public void displayAllNumbers() {
+        enqueue();
+        System.out.println("All numbers in the queue:");
+        for (Node node : queList) {
+            System.out.print(node.getNomor() + "<--------");
+        }
     }
 
-    // Returning the number of the first node in the queue without removing it
-    return queList.get(0).getNomor();
-}
+    public int peekFrontNumber() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot peek.");
+            return -1;
+        }
 
+        // Returning the number of the first node in the queue without removing it
+        return queList.get(0).getNomor();
+    }
+
+    public String peekFrontName() {
+        if (isEmpty()) {
+            System.out.println("Queue is empty. Cannot peek.");
+            return null;
+        }
+
+        // Returning the number of the first node in the queue without removing it
+        return queList.get(0).getNama();
+    }
 }

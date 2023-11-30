@@ -12,7 +12,7 @@ public class App {
     private static String alamat;
     private static boolean kondisi;
     private static final Scanner read = new Scanner(System.in);
-    private static final Queue_copy ktp = new Queue_copy();
+    private static final Queue ktp = new Queue();
 
     // implementasi queue
     public static void main(String[] args) {
